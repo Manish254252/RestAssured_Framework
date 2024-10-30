@@ -28,4 +28,9 @@ public class RequestSteps {
         RestAssuredUtils.post();
     }
 
+    @When("user performs get call")
+    public void user_performs_get_call() {
+        RestAssuredUtils.get();
+    }
+
 }
