@@ -6,6 +6,7 @@ Feature: Validate Create Booking End Point
     And set request body from file "create_booking.json"
     When user performs post call
     Then verify status code is 200
+    And verify response body has same data as request
 
   Scenario: Verify user can get list of booking
     Given user wants to call "/booking" end point

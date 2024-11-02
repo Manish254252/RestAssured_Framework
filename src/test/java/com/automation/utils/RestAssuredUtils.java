@@ -1,5 +1,6 @@
 package com.automation.utils;
 
+import com.automation.pojo.CreateBookingResponsePojo;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
@@ -65,6 +66,10 @@ public class RestAssuredUtils {
         Scanner sc = new Scanner(new FileInputStream(jsonFolderPath + fileName));
         String body = sc.useDelimiter("\\Z").next();
         return body;
+    }
+
+    public static Response getResponse() {
+        return response;
     }
 
 }
