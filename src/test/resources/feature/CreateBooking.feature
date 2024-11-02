@@ -7,7 +7,6 @@ Feature: Validate Create Booking End Point
     When user performs post call
     Then verify status code is 200
 
-
   Scenario: Verify user can get list of booking
     Given user wants to call "/booking" end point
     When user performs get call
