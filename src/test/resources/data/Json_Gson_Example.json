@@ -1,0 +1,25 @@
+{
+  "bookstoreid": 1234,
+  "bookstorename": "Sapna Engineering Store",
+  "books": [
+    {
+      "title": "Java Revision",
+      "price": 299,
+      "isAvailable": true
+    },
+    {
+      "title": "Python Revision",
+      "price": 299,
+      "isAvailable": false
+    },
+    {
+      "title": "C Programming",
+      "price": 499,
+      "isAvailable": true
+    },{
+      "title": "Let US C",
+      "price": 199,
+      "isAvailable": true
+    }
+  ]
+}

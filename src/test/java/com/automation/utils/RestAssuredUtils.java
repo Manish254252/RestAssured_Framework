@@ -72,4 +72,8 @@ public class RestAssuredUtils {
         return response;
     }
 
+    public static String getResponseFieldValue(String jsonPath){
+        return response.jsonPath().getString(jsonPath);
+    }
+
 }

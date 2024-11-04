@@ -33,7 +33,7 @@ public class ConfigReader {
     }
 
     public static void setObject(String key, Object value) {
-        prop.putIfAbsent(key, value);
+        prop.put(key, value);
     }
 
     // This is testing method of setObject and getObject

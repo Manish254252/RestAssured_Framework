@@ -6,6 +6,7 @@ import com.automation.utils.ConfigReader;
 import com.automation.utils.RestAssuredUtils;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
+import io.restassured.module.jsv.JsonSchemaValidator;
 import io.restassured.response.Response;
 import org.junit.Assert;
 
@@ -21,5 +22,16 @@ public class ResponseSteps {
         CreateBookingResponsePojo responsePojo = response.as(CreateBookingResponsePojo.class);
         CreateBookingRequestPojo requestPojo = (CreateBookingRequestPojo) ConfigReader.getObject("request_pojo");
         Assert.assertTrue(requestPojo.equals(responsePojo.getBooking()));
+    }
+
+    @And("verify response body has a field {string} is {string}")
+    public void verifyResponseBodyHasAFieldIs(String jsonPath, String value) {
+        Assert.assertEquals(value, RestAssuredUtils.getResponseFieldValue(jsonPath));
+    }
+
+    @And("verify response schema with {string}")
+    public void verifyResponseSchemaWith(String filePath) {
+        Response response = RestAssuredUtils.getResponse();
+        response.then().assertThat().body(JsonSchemaValidator.matchesJsonSchemaInClasspath("data/create_booking_schema.json"));
     }
 }

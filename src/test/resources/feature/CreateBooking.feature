@@ -7,6 +7,8 @@ Feature: Validate Create Booking End Point
     When user performs post call
     Then verify status code is 200
     And verify response body has same data as request
+    And verify response body has a field "booking.firstname" is "Chirag"
+    And verify response schema with "create_booking_schema.json"
 
   Scenario: Verify user can get list of booking
     Given user wants to call "/booking" end point
