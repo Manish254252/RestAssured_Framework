@@ -13,7 +13,7 @@ import org.junit.Assert;
 public class ResponseSteps {
     @Then("verify status code is {int}")
     public void verify_status_code_is(int statusCode) {
-        Assert.assertEquals(RestAssuredUtils.getStatusCode(), statusCode);
+        Assert.assertEquals(statusCode, RestAssuredUtils.getStatusCode());
     }
 
     @And("verify response body has same data as request")
@@ -33,5 +33,11 @@ public class ResponseSteps {
     public void verifyResponseSchemaWith(String filePath) {
         Response response = RestAssuredUtils.getResponse();
         response.then().assertThat().body(JsonSchemaValidator.matchesJsonSchemaInClasspath("data/create_booking_schema.json"));
+    }
+
+    @And("store {string} into {string}")
+    public void storeInto(String jsonPath, String configKey) {
+        String value = RestAssuredUtils.getResponseFieldValue(jsonPath);
+        ConfigReader.setProperty(configKey, value);
     }
 }

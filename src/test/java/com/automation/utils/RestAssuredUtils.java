@@ -51,6 +51,12 @@ public class RestAssuredUtils {
         response.then().log().all();
     }
 
+    public static void delete() {
+        reqSpecification.log().all();
+        response = reqSpecification.delete(endPoint);
+        response.then().log().all();
+    }
+
     public static void put() {
         reqSpecification.log().all();
         response = reqSpecification.put(endPoint);
@@ -76,4 +82,7 @@ public class RestAssuredUtils {
         return response.jsonPath().getString(jsonPath);
     }
 
+    public static void clear() {
+        reqSpecification = RestAssured.given();
+    }
 }
