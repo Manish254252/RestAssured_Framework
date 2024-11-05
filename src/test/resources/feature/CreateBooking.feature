@@ -19,12 +19,12 @@ Feature: Validate Create Booking End Point
   Scenario Outline: Verify user get error for invalid amount
     Given user wants to call "/booking" end point
     And set header "Content-Type" to "application/json"
-    And set request body from file "create_booking.json" with amount -100
+    And set request body from file "create_booking.json" with "totalprice" value "<Amount>"
     When user performs post call
     Then verify status code is 500
 
     Examples:
-      | Amount        |
-      | -100          |
-      | 0             |
-      | 1000000000000 |
+      | Amount    |
+      | -100      |
+      | 0         |
+      | 100000000 |

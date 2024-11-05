@@ -2,6 +2,7 @@ package com.automation.steps;
 
 import com.automation.pojo.CreateBookingRequestPojo;
 import com.automation.utils.ConfigReader;
+import com.automation.utils.Constants;
 import com.automation.utils.RestAssuredUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -11,6 +12,7 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
 import java.io.FileNotFoundException;
+import java.lang.reflect.Field;
 
 public class RequestSteps {
 
@@ -30,15 +32,6 @@ public class RequestSteps {
             value = value.replace("@token", ConfigReader.getProperty("auth.token"));
         }
         RestAssuredUtils.setHeader(key, value);
-    }
-
-    @Given("set request body from file {string} using pojo")
-    public void set_request_body_from_file_using_pojo(String filePath) throws Exception {
-        String content = RestAssuredUtils.getDataFromJsonFile(filePath);
-        ObjectMapper objectMapper = new ObjectMapper();
-        CreateBookingRequestPojo requestPojo = objectMapper.readValue(content, CreateBookingRequestPojo.class);
-        RestAssuredUtils.setBody(requestPojo);
-        ConfigReader.setObject("request_pojo", requestPojo);
     }
 
     @Given("set request body from file {string}")
@@ -66,25 +59,19 @@ public class RequestSteps {
         RestAssuredUtils.get();
     }
 
-    @And("set request body from file {string} with additional needs {string}")
-    public void setRequestBodyFromFileWithAdditionalNeeds(String filePath, String additionalNeeds) throws Exception {
+    @And("set request body from file {string} with {string} value {string}")
+    public void setRequestBodyFromFileWithValue(String filePath, String fieldName, String value) throws Exception {
         String content = RestAssuredUtils.getDataFromJsonFile(filePath);
         ObjectMapper objectMapper = new ObjectMapper();
         CreateBookingRequestPojo requestPojo = objectMapper.readValue(content, CreateBookingRequestPojo.class);
-        requestPojo.setAdditionalneeds(additionalNeeds);
+        Field field = CreateBookingRequestPojo.class.getDeclaredField(fieldName);
+        field.setAccessible(true);
+        if (Constants.createBookingIntFields.contains(fieldName)) {
+            field.set(requestPojo, Integer.valueOf(value));
+        } else {
+            field.set(requestPojo, value);
+        }
         RestAssuredUtils.setBody(requestPojo);
         ConfigReader.setObject("request_pojo", requestPojo);
     }
-
-    @And("set request body from file {string} with amount {int}")
-    public void setRequestBodyFromFileWithAmount(String filePath, int amountValue) throws Exception {
-        String content = RestAssuredUtils.getDataFromJsonFile(filePath);
-        ObjectMapper objectMapper = new ObjectMapper();
-        CreateBookingRequestPojo requestPojo = objectMapper.readValue(content, CreateBookingRequestPojo.class);
-        requestPojo.setTotalprice(amountValue);
-        RestAssuredUtils.setBody(requestPojo);
-        ConfigReader.setObject("request_pojo", requestPojo);
-    }
-
-
 }

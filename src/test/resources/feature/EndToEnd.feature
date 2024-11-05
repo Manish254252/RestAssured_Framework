@@ -3,7 +3,7 @@ Feature: Verify End to End Scenario
   Scenario: Verify user can create, update and delete the booking
     Given user wants to call "/booking" end point
     And set header "Content-Type" to "application/json"
-    And set request body from file "create_booking.json" using pojo
+    And set request body from file "create_booking.json"
     When user performs post call
     Then verify status code is 200
     And store "bookingid" into "booking.id"
@@ -16,7 +16,7 @@ Feature: Verify End to End Scenario
     Given user wants to call "/booking/@id" end point
     And set header "Content-Type" to "application/json"
     And set header "Cookie" to "token=@token"
-    And set request body from file "create_booking.json" with additional needs "Veg Breakfast Only"
+    And set request body from file "create_booking.json" with "additionalneeds" value "Veg Breakfast Only"
     When user performs put call
     Then verify status code is 200
     And verify response body has a field "additionalneeds" is "Veg Breakfast Only"
